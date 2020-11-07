@@ -31,12 +31,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'games',
+
+    #作成したusersアプリの追加
+    'users.apps.UsersConfig',
+
+    #django-allauthの追加
+    #※今回は外部SNSを使用しませんが、socialaccountの設定は必須になります。
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',#django-allauthで使用する基本ライブラリの追加
+
 ]
 
 MIDDLEWARE = [
@@ -51,10 +64,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dj_members.urls'
 
+AUTHENTICATION_BACKENDS = [
+   'django.contrib.auth.backends.ModelBackend',
+   'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates', 'allauth'), 
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +88,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'dj_members.wsgi.application'
+
+#カスタムユーザーの指定
+AUTH_USER_MODEL = 'users.User'
+#以下、django-allauthの各種設定
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/games/' # ログイン後遷移する画面を指定
+ACCOUNT_LOGOUT_REDIRECT_URL = 'users:logout' # ログアウト後遷移する画面の指定
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # 認証方法をメールアドレスにする
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None # Userモデルにusernameは無い
+ACCOUNT_EMAIL_REQUIRED = True # メールアドレスを要求する
+ACCOUNT_USERNAME_REQUIRED = False # ユーザー名を要求しない
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #(開発用)メール送信は行わず、コンソールに内容を出力する
+
 
 
 # Database
@@ -103,9 +136,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
