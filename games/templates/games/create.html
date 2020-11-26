@@ -9,11 +9,16 @@
     <title>Document</title>
 </head>
 <body>
-    <p>login後のindex.html</p>
-    <a href="{% url 'create' %}">profile</a>
+    <p>create.html</p>
     <a href='/accounts/logout/'>logout</a>
-    <a href="{% url 'group_create' %}">group作成</a>
-    
-    
+    <div>{{ msg }}</div>
+    <table>
+    <form action="{% url 'create' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_table }}
+        <tr><td></td><td><input type="submit" value="click"></td></tr>
+        
+    </form>
+    </table>
 </body>
 </html>

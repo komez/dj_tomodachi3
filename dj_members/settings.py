@@ -94,14 +94,15 @@ AUTH_USER_MODEL = 'users.User'
 #以下、django-allauthの各種設定
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/games/' # ログイン後遷移する画面を指定
-ACCOUNT_LOGOUT_REDIRECT_URL = 'users:logout' # ログアウト後遷移する画面の指定
-ACCOUNT_AUTHENTICATION_METHOD = 'email' # 認証方法をメールアドレスにする
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/signup/' # ログアウト後遷移する画面の指定
+ACCOUNT_AUTHENTICATION_METHOD = 'email','password'# 認証方法をメールアドレスにする
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None # Userモデルにusernameは無い
 ACCOUNT_EMAIL_REQUIRED = True # メールアドレスを要求する
 ACCOUNT_USERNAME_REQUIRED = False # ユーザー名を要求しない
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #(開発用)メール送信は行わず、コンソールに内容を出力する
 
-
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -136,8 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja'
-
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
